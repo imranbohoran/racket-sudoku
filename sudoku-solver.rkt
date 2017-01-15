@@ -5,14 +5,12 @@
 (define (atom? x)
   (not (pair? x)))
 
-(define (transform-rule x)
-  (if (zero? x)
-      (list 1 2 3 4 5 6 7 8 9)
-      x
-  ))
-
 (define (transform matrix)
-  (map transform-rule matrix))
+  (map (lambda (x)
+         (if (zero? x)
+             (list 1 2 3 4 5 6 7 8 9)
+             x))
+       matrix))
 
 (define (solve matrix)
   "Not yet Implemented"
