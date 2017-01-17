@@ -4,12 +4,12 @@
 
 (define (atom? x)
   (not (pair? x)))
-
+  
 (define (transform matrix)
   (map (lambda (x)
-         (if (zero? x)
-             (list 1 2 3 4 5 6 7 8 9)
-             x))
+         (cond ((list? x) (transform x))
+               ((and (atom? x) (zero? x)) (list 1 2 3 4 5 6 7 8 9))
+               (else x)))
        matrix))
 
 (define (solve matrix)
