@@ -14,13 +14,13 @@
 
    (test-case
     "0s should be replaced"
-    (let ([matrix '(2 3 4 0 5)])
-      (check-equal? (transform matrix) '(2 3 4 (1 2 3 4 5 6 7 8 9) 5)
+    (let ([matrix '(2 3 4 0 5 6 1 7 8 9)])
+      (check-equal? (transform matrix) '(2 3 4 (1 2 3 4 5 6 7 8 9) 5 6 1 7 8 9)
    )))
    (test-case
     "0s should be replaced across the whole matrix"
-    (let ([matrix '((2 3 4 0 5) (1 3 0 0 1) (0 2 3 4 0))])
-      (check-equal? (transform matrix) '((2 3 4 (1 2 3 4 5 6 7 8 9) 5) (1 3 (1 2 3 4 5 6 7 8 9) (1 2 3 4 5 6 7 8 9) 1) ((1 2 3 4 5 6 7 8 9) 2 3 4 (1 2 3 4 5 6 7 8 9)))
+    (let ([matrix '((2 3 4 0 5 6 1 7 8) (1 3 0 0 1 6 7 8 9) (0 2 3 4 0 6 7 8 9))])
+      (check-equal? (transform matrix) '((2 3 4 (1 2 3 4 5 6 7 8 9) 5 6 7 8 9) (1 3 (1 2 3 4 5 6 7 8 9) (1 2 3 4 5 6 7 8 9) 1 6 7 8 9) ((1 2 3 4 5 6 7 8 9) 2 3 4 (1 2 3 4 5 6 7 8 9) 6 7 8 9))
    )))
   )
 )
