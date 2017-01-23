@@ -18,3 +18,4 @@
 
 (provide atom?)
 (provide transform)
+(provide solve)
