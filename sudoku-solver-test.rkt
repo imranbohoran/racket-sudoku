@@ -13,11 +13,15 @@
     (test-case
      "an atom should be identified as an atom"
      (check-equal? (atom? 2) #t "Should be an atom")
-     )
+    )
     (test-case
      "A list should not be identified as an atom"
      (check-equal? (atom? '(2 3 4)) #f "Should not be an atom. It's a list")
-     )
+    )
+    (test-case
+     "All singletons should be extracted into a single list"
+     (check-equal? (extract-singleton '(1 2 (1 2 3 4 5 6 7 8 9) 5 8 9 (1 2 3 4 5 6 7 8 9) (1 2 3 4 5 6 7 8 9) 6)) '(6 9 8 5 2 1))
+    )
    )
    (test-suite
    "Tests the sudoku solver transform function"
@@ -44,5 +48,4 @@
 )
 
 (require rackunit/text-ui)
- 
 (run-tests sudoku-solver-tests)

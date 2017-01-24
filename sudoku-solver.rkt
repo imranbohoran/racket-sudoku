@@ -4,6 +4,16 @@
 
 (define (atom? x)
   (not (pair? x)))
+
+(define (extract-singleton values)
+  (define
+    (process-singletons in out)
+      (cond ((empty? in) out)
+            ((atom? (car in)) (process-singletons (cdr in) (cons (car in) out)))
+            (else (process-singletons (cdr in) out))
+      )
+    )
+  (process-singletons values '()))
   
 (define (transform matrix)
   (map (lambda (x)
@@ -17,5 +27,6 @@
 )
 
 (provide atom?)
+(provide extract-singleton)
 (provide transform)
 (provide solve)
