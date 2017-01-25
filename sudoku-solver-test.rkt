@@ -22,6 +22,10 @@
      "All singletons should be extracted into a single list"
      (check-equal? (extract-singleton '(1 2 (1 2 3 4 5 6 7 8 9) 5 8 9 (1 2 3 4 5 6 7 8 9) (1 2 3 4 5 6 7 8 9) 6)) '(6 9 8 5 2 1))
     )
+    (test-case
+     "Should remove all singletons from sets"
+     (check-equal? (prune-sets '(6 9 8 5 2 1) '(1 2 (1 2 3 4 5 6 7 8 9) 5 8 9 (1 2 3 4 5 6 7 8 9) (1 2 3 4 5 6 7 8 9) 6)) '(1 2 (3 4 7) 5 8 9 (3 4 7) (3 4 7) 6))
+     )
    )
    (test-suite
    "Tests the sudoku solver transform function"

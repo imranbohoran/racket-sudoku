@@ -14,7 +14,17 @@
       )
     )
   (process-singletons values '()))
-  
+
+(define (prune-sets singletons values)
+  (define (process-sets singletons values pruned)
+    (cond ((empty? values) pruned)
+          ((atom? (car values)) (process-sets singletons (cdr values) (append pruned (list (car values)))))
+          ((list? (car values)) (process-sets singletons (cdr values) (append pruned (list (remove* singletons (car values))))))
+    )
+  )
+  (process-sets singletons values '())
+  )
+
 (define (transform matrix)
   (map (lambda (x)
          (cond ((list? x) (transform x))
@@ -30,3 +40,4 @@
 (provide extract-singleton)
 (provide transform)
 (provide solve)
+(provide prune-sets)
