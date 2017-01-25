@@ -2,6 +2,7 @@
 
 #lang racket
 
+;; Utility functinos used for solving a sudoku grid.
 (define (atom? x)
   (not (pair? x)))
 
@@ -25,6 +26,17 @@
   (process-sets singletons values '())
   )
 
+(define (extract-sets values)
+  (define
+    (process-sets in out)
+      (cond ((empty? in) out)
+            ((list? (car in)) (process-sets (cdr in) (append out (list (car in)))))
+            (else (process-sets (cdr in) out))
+      )
+    )
+  (process-sets values '()))
+
+;; Main functions used for solving the sudoku grid
 (define (transform matrix)
   (map (lambda (x)
          (cond ((list? x) (transform x))
@@ -38,6 +50,7 @@
 
 (provide atom?)
 (provide extract-singleton)
+(provide prune-sets)
+(provide extract-sets)
 (provide transform)
 (provide solve)
-(provide prune-sets)
