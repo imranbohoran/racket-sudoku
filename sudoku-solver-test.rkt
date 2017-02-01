@@ -19,6 +19,18 @@
      (check-equal? (atom? '(2 3 4)) #f "Should not be an atom. It's a list")
     )
     (test-case
+     "Should return true for an existing member in a list"
+     (check-equal? (is-member? 2 '((1 2) (3 4) (5 6))) #t "Should return true")
+     )
+    (test-case
+     "Should return true for an existing member in a list - 2"
+     (check-equal? (is-member? 3 '((1 2) (3 4) (5 6))) #t "Should return true")
+     )
+    (test-case
+     "Should return false for a non-existing member in a list"
+     (check-equal? (is-member? 7 '((1 2) (3 4) (5 6))) #f "Should return false")
+     )
+    (test-case
      "All singletons should be extracted into a single list"
      (check-equal? (extract-singleton '(1 2 (1 2 3 4 5 6 7 8 9) 5 8 9 (1 2 3 4 5 6 7 8 9) (1 2 3 4 5 6 7 8 9) 6)) '(6 9 8 5 2 1))
     )
@@ -29,6 +41,27 @@
     (test-case
      "Should extract all non-singleton sets"
      (check-equal? (extract-sets '(1 2 (1 2 3 4 5 6 7 8 9) 5 8 9 (1 2 3 4 5 6 7 8 9) (1 2 3 4 5 6 7 8 9) 6)) '((1 2 3 4 5 6 7 8 9) (1 2 3 4 5 6 7 8 9) (1 2 3 4 5 6 7 8 9)))
+     )
+     (test-case
+     "Should return empty list if no non-singleton sets found"
+     (check-equal? (extract-sets '(1 2 5 8 9 6)) '())
+     )
+    (test-case
+     "Should return unique value when unique value exists"
+     (check-equal? (find-unique '(1 2) '((3 4 7) (2 9) (3 9) (7 9) (3 7 9))) 1)
+     )
+    (test-case
+     "Should return empty value when unique value does not exists"
+     (check-equal? (find-unique '(3 2) '((3 4 7) (2 9) (3 9) (7 9) (3 7 9))) '())
+     )
+    (test-case
+     "Should return empty value when uniqueness checked against an empty list"
+     (check-equal? (find-unique '(3 2) '()) '())
+     )
+
+    (test-case
+     "Should create singletons from sets if they have values unique to them"
+     (check-equal? (singletons-from-sets '(1 2 (3 4 7) 5 6 (8 9) (3 9) (7 9) (3 7 9))) '(1 2 4 5 6 8 (3 9) (7 9) (3 7 9)))
      )
    )
    (test-suite
