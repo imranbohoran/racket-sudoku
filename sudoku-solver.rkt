@@ -1,4 +1,15 @@
 ;;; Sodoku solver
+;;;
+;;;
+;;;The algorithm
+;;;• Repeatedly do the following:
+;;;    Find a location containing a singleton set (a set containing just one number).
+;;;      For every other set in the same row, the same column, or the same 3x3 box, remove that number (if present).
+;;;    Find a number in a set that does not occur in any other set in the same row (or column, or box).                    --> Done
+;;;      Reduce that set to a singleton containing that one number.                                                        --> Done ; singletons-from-sets
+;;;• Quit when every set is a singleton, or when no more numbers can be removed from any set.
+;;;
+;;;
 
 #lang racket
 
@@ -21,6 +32,17 @@
                               (else comp))))
     )
 
+(define (is-solved? values)
+  (define (check-cell values result)
+    (cond ((equal? result #f) result)
+          ((empty? values) result)
+          ((list? (car values)) (check-cell values #f))
+          (else (check-cell (cdr values) result))
+    )
+  )
+  (check-cell values #t))
+
+         
 (define (extract-singleton values)
   (define
     (process-singletons in out)
@@ -78,6 +100,7 @@
 
 (provide atom?)
 (provide is-member?)
+(provide is-solved?)
 (provide find-unique)
 (provide extract-singleton)
 (provide prune-sets)

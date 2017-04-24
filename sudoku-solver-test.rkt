@@ -63,6 +63,16 @@
      "Should create singletons from sets if they have values unique to them"
      (check-equal? (singletons-from-sets '(1 2 (3 4 7) 5 6 (8 9) (3 9) (7 9) (3 7 9))) '(1 2 4 5 6 8 (3 9) (7 9) (3 7 9)))
      )
+
+    (test-case
+     "Should be satisfied when every element is a singleton"
+     (check-equal? (is-solved? '(1 2 3 (4 7 8) 5 6)) #f "Should return false")
+     )
+
+    (test-case
+     "Should not be satisfied when at least one element is still not a singleton"
+     (check-equal? (is-solved? '(1 2 3 4 5 6)) #t "Should return true")
+     )
    )
    (test-suite
    "Tests the sudoku solver transform function"
