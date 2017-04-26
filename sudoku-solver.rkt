@@ -4,10 +4,10 @@
 ;;;The algorithm
 ;;;• Repeatedly do the following:
 ;;;    Find a location containing a singleton set (a set containing just one number).
-;;;      For every other set in the same row, the same column, or the same 3x3 box, remove that number (if present).
+;;;      For every other set in the same row, the same column, or the same 3x3 box, remove that number (if present).       --> Done
 ;;;    Find a number in a set that does not occur in any other set in the same row (or column, or box).                    --> Done
 ;;;      Reduce that set to a singleton containing that one number.                                                        --> Done ; singletons-from-sets
-;;;• Quit when every set is a singleton, or when no more numbers can be removed from any set.
+;;;• Quit when every set is a singleton, or when no more numbers can be removed from any set.                              --> Done
 ;;;
 ;;;
 
@@ -36,6 +36,7 @@
   (define (check-cell values result)
     (cond ((equal? result #f) result)
           ((empty? values) result)
+          ((memv 0 values) #f)
           ((list? (car values)) (check-cell values #f))
           (else (check-cell (cdr values) result))
     )
@@ -85,6 +86,12 @@
   (make-singletons values '())
  )
 
+(define (normalise values results)
+  (cond ((empty? values) results)
+        ((atom? (car values)) (normalise (cdr values) (append results (list (car values)))))
+        ((list? (car values)) (normalise (cdr values) (append results (car values))))
+        )
+  )
 
 ;; Main functions used for solving the sudoku grid
 (define (transform matrix)
@@ -95,7 +102,16 @@
        matrix))
 
 (define (solve matrix)
-  "Not yet Implemented"
+  (define (attempt-solving values)
+    (cond ((is-solved? values) '())
+          (else (process-row values))
+         )
+    )
+  (define (process-row values)
+    (normalise (singletons-from-sets (prune-sets (extract-singleton values) values)) '())
+    )
+  
+  (map attempt-solving (transform matrix))
 )
 
 (provide atom?)
@@ -106,5 +122,6 @@
 (provide prune-sets)
 (provide extract-sets)
 (provide singletons-from-sets)
+(provide normalise)
 (provide transform)
 (provide solve)
